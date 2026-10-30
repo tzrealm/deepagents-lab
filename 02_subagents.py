@@ -6,6 +6,7 @@
 """
 
 from deepagents import create_deep_agent
+from config import MODEL
 from langchain_core.tools import tool
 
 
@@ -40,7 +41,7 @@ writer = {
 }
 
 agent = create_deep_agent(
-    model="openai:gpt-5.5",
+    model=MODEL,
     system_prompt=(
         "你是主编。工作流固定：\n"
         "1) 先派 researcher 收集事实；\n"

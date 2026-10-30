@@ -5,9 +5,10 @@
 """
 
 from deepagents import create_deep_agent
+from config import MODEL
 
 agent = create_deep_agent(
-    model="openai:gpt-5.5",  # 换成你有的模型，例如 anthropic:claude-sonnet-4-6
+    model=MODEL,
     system_prompt="你是一名严谨的研究助理，回答用中文。",
 )
 

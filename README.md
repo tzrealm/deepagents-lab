@@ -6,16 +6,16 @@
 
 ```bash
 uv init --python 3.11
-uv add deepagents langchain-openai
+uv add deepagents langchain-ollama
 # 或者
 pip install -r requirements.txt
 
-export OPENAI_API_KEY="sk-..."
+ollama pull qwen3.5:9b            # 本地模型，需先安装并启动 Ollama
 export LANGSMITH_TRACING=true      # 可选但强烈建议
 export LANGSMITH_API_KEY="lsv2_..."
 ```
 
-模型名在脚本里统一写的是 `openai:gpt-5.5`，换成你有的即可（`anthropic:claude-sonnet-4-6`、`deepseek:deepseek-chat` 等，只要是 `provider:model` 格式）。
+所有脚本统一从 `config.py` 的全局变量 `MODEL` 取模型（默认 `ChatOllama(model="qwen3.5:9b", num_ctx=32768, temperature=0)`），换模型只改这一处。
 
 ## 脚本对照表
 

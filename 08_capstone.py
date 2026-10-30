@@ -9,6 +9,7 @@ from pathlib import Path
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 from deepagents.middleware.filesystem import FilesystemPermission
+from config import MODEL
 from langgraph.checkpoint.memory import InMemorySaver
 
 DOCS_DIR = Path("./capstone/docs").resolve()
@@ -42,7 +43,7 @@ answerer = {
 }
 
 agent = create_deep_agent(
-    model="openai:gpt-5.5",
+    model=MODEL,
     system_prompt=(
         "你是技术文档助手。流程：\n"
         "1) 先派 indexer 建立索引，存到 /index.md；\n"

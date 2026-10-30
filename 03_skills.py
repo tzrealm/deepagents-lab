@@ -6,9 +6,10 @@
 
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
+from config import MODEL
 
 agent = create_deep_agent(
-    model="openai:gpt-5.5",
+    model=MODEL,
     system_prompt="你是助理。严格按可用技能的流程执行。",
     skills=["./03_skills/skills/"],  # 注意：是目录，不是文件
     backend=FilesystemBackend(root_dir="."),

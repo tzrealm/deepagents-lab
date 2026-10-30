@@ -7,11 +7,12 @@
 
 from deepagents import create_deep_agent
 from deepagents.middleware.rubric import RubricMiddleware
+from config import MODEL
 
 agent = create_deep_agent(
-    model="openai:gpt-5.5",
+    model=MODEL,
     system_prompt="你是技术写作者。",
-    middleware=[RubricMiddleware(model="openai:gpt-5.5", max_iterations=3)],
+    middleware=[RubricMiddleware(model=MODEL, max_iterations=3)],
 )
 
 RUBRIC = (

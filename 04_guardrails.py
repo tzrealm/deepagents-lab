@@ -9,6 +9,7 @@ from pathlib import Path
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 from deepagents.middleware.filesystem import FilesystemPermission
+from config import MODEL
 from langgraph.types import Command
 
 WORKDIR = Path("./workspace").resolve()
@@ -16,7 +17,7 @@ WORKDIR = Path("./workspace").resolve()
 (WORKDIR / "secrets" / "api.key").write_text("sk-fake-should-never-be-read", encoding="utf-8")
 
 agent = create_deep_agent(
-    model="openai:gpt-5.5",
+    model=MODEL,
     system_prompt="你是运维助手。做事前先确认路径。",
     backend=FilesystemBackend(root_dir=WORKDIR, virtual_mode=True),
     # 顺序敏感：先 deny 密钥，再放行其余

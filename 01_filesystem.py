@@ -8,12 +8,13 @@ from pathlib import Path
 
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
+from config import MODEL
 
 WORKDIR = Path("./workspace").resolve()
 WORKDIR.mkdir(exist_ok=True)
 
 agent = create_deep_agent(
-    model="openai:gpt-5.5",
+    model=MODEL,
     system_prompt=(
         "你是资料整理助手。所有产物一律写到 /notes/ 目录下，一个主题一个文件。"
         "文件名用英文短横线格式。"

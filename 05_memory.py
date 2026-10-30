@@ -8,13 +8,14 @@ from pathlib import Path
 
 from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
+from config import MODEL
 
 MEMORY_FILE = Path("./05_memory/AGENTS.md")
 
 
 def build_agent(with_memory: bool):
     return create_deep_agent(
-        model="openai:gpt-5.5",
+        model=MODEL,
         system_prompt="你是技术顾问。",
         memory=[str(MEMORY_FILE)] if with_memory else None,
         backend=FilesystemBackend(root_dir="./workspace"),

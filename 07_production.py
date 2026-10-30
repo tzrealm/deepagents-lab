@@ -9,6 +9,7 @@ from langgraph.store.memory import InMemoryStore
 from pydantic import BaseModel, Field
 
 from deepagents import create_deep_agent
+from config import MODEL
 
 
 class ResearchBrief(BaseModel):
@@ -21,7 +22,7 @@ class ResearchBrief(BaseModel):
 
 
 agent = create_deep_agent(
-    model="openai:gpt-5.5",
+    model=MODEL,
     system_prompt="你是研究助理。先列要点，再收敛结论。",
     checkpointer=InMemorySaver(),  # 生产换 PostgresSaver，否则一重启全丢
     store=InMemoryStore(),         # 生产换 PostgresStore

@@ -21,7 +21,7 @@ DeepAgents 默认有三道防线，所以"随便塞个大文件"根本爆不了�
   C. 真爆 + 无兜底 —— 关掉摘要，看原始报错长什么样
 
 默认用假模型离线跑（不花钱、不需要 API key）。
-加 --real 参数则用真实模型跑实验 A（需要 OPENAI_API_KEY 或 ANTHROPIC_API_KEY）。
+加 --real 参数则用真实模型跑实验 A（需要本地 Ollama 已拉取 config.py 里的模型）。
 
 用法：
     python 09_context_overflow.py            # 离线，三个实验都跑
@@ -49,6 +49,7 @@ from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 from deepagents.middleware.filesystem import FilesystemMiddleware
 from deepagents.middleware.summarization import SummarizationMiddleware
+from config import MODEL
 
 WORKDIR = Path("./workspace_ctx").resolve()
 
@@ -150,9 +151,8 @@ def exp_a_low_trigger(real: bool = False) -> None:
     backend = FilesystemBackend(root_dir=root, virtual_mode=True)
 
     if real:
-        model_name = "openai:gpt-5.5"
-        model: Any = model_name
-        summ_model: Any = model_name
+        model: Any = MODEL
+        summ_model: Any = MODEL
     else:
         model = ScriptedModel(script=_big_task_script(6))
         summ_model = model
