@@ -1,50 +1,52 @@
 # deepagents-lab
 
-《DeepAgents 学习计划》的配套练习代码。每个脚本对应主文档的一个阶段，先跑通，再改坏，再修好。
+English | [简体中文](README.zh-CN.md)
 
-## 准备
+Companion exercise code for the *DeepAgents Learning Plan*. Each script maps to one stage of the main document: get it running, break it, then fix it.
+
+## Setup
 
 ```bash
-uv init --python 3.11
+uv init --python 3.12
 uv add deepagents langchain-ollama
-# 或者
+# or
 pip install -r requirements.txt
 
-ollama pull qwen3.5:9b            # 本地模型，需先安装并启动 Ollama
-export LANGSMITH_TRACING=true      # 可选但强烈建议
+ollama pull qwen3.5:9b            # local model; install and start Ollama first
+export LANGSMITH_TRACING=true      # optional but strongly recommended
 export LANGSMITH_API_KEY="lsv2_..."
 ```
 
-所有脚本统一从 `config.py` 的全局变量 `MODEL` 取模型（默认 `ChatOllama(model="qwen3.5:9b", num_ctx=32768, temperature=0)`），换模型只改这一处。
+All scripts get their model from the global `MODEL` in `config.py` (default: `ChatOllama(model="qwen3.5:9b", num_ctx=32768, temperature=0)`). To switch models, change it in that one place.
 
-## 脚本对照表
+## Script Overview
 
-| 脚本 | 阶段 | 学什么 | 关键观察 |
+| Script | Stage | What you learn | Key observation |
 |---|---|---|---|
-| `00_first_agent.py` | 0 | 最小可运行 agent | 有 tool call，但磁盘上没文件 |
-| `01_filesystem.py` | 1 | 真实磁盘 + 虚拟根边界 | 产物落 `workspace/notes/`，越界被挡 |
-| `02_subagents.py` | 2 | 双子代理流水线 | trace 里两个独立子 run |
-| `03_skills.py` | 2 | SKILL.md 按需加载 | 系统提示只有 name+description |
-| `04_guardrails.py` | 3 | 权限 deny + 审批 interrupt | 读密钥被拒，写 prod 要批 |
-| `05_memory.py` | 3 | AGENTS.md 记忆 | 改文件后输出风格变化 |
-| `06_rubric.py` | 3 | 自评迭代 | grader 打回一次后重写 |
-| `07_production.py` | 4 | 流式/持久化/结构化输出 | 同 thread 第二轮记得上文 |
-| `08_capstone.py` | 5 | 综合项目 | 答案带出处、文档只读 |
-| `09_context_overflow.py` | 1 | 让上下文真爆一次 | 四个实验：摘要触发 / 溢出兜底 / 裸奔崩溃 / 累积爆掉 |
+| `00_first_agent.py` | 0 | Minimal runnable agent | Tool calls happen, but no files land on disk |
+| `01_filesystem.py` | 1 | Real disk + virtual root boundary | Output lands in `workspace/notes/`; out-of-bounds access is blocked |
+| `02_subagents.py` | 2 | Two-subagent pipeline | Two independent child runs in the trace |
+| `03_skills.py` | 2 | On-demand SKILL.md loading | System prompt only contains name + description |
+| `04_guardrails.py` | 3 | Permission deny + approval interrupt | Reading secrets is denied; writing to prod requires approval |
+| `05_memory.py` | 3 | AGENTS.md memory | Output style changes after editing the file |
+| `06_rubric.py` | 3 | Self-evaluation loop | Grader rejects once, then the agent rewrites |
+| `07_production.py` | 4 | Streaming / persistence / structured output | Second turn in the same thread remembers context |
+| `08_capstone.py` | 5 | Capstone project | Answers cite sources; docs are read-only |
+| `09_context_overflow.py` | 1 | Actually overflow the context | Four experiments: summarization trigger / overflow fallback / unguarded crash / cumulative blowup |
 
-`09` 比较特殊：**默认不花钱**，用脚本化的假模型离线跑四个实验，`--real` 才调真实模型。
+`09` is special: **it costs nothing by default** — it runs the four experiments offline with a scripted fake model. Pass `--real` to call a real model.
 
-## 建议的练习方式
+## Suggested Practice
 
-1. **先原样跑通**，对照主文档的"关键观察"确认现象一致。
-2. **再改一个参数**，预测结果，然后验证。比如：
-   - `01`：把 `virtual_mode` 改成 `False`，看越界写会不会成功
-   - `02`：删掉 researcher 的 `tools`，看它是不是开始抢活
-   - `04`：把 allow 规则挪到 deny 前面，看拦截是否失效
-   - `06`：把 `max_iterations` 改成 1，看未通过时返回什么
-3. **最后不看代码重写一遍**，卡住再回头看。
+1. **Run it as-is first**, and check against the "Key observation" in the main document that you see the same behavior.
+2. **Then change one parameter**, predict the outcome, and verify. For example:
+   - `01`: set `virtual_mode` to `False` and see whether out-of-bounds writes succeed
+   - `02`: remove the researcher's `tools` and see whether it starts taking over others' work
+   - `04`: move the allow rule before the deny rule and see whether blocking stops working
+   - `06`: set `max_iterations` to 1 and see what's returned when the rubric isn't met
+3. **Finally, rewrite it without looking at the code**, and only look back when you get stuck.
 
-## 目录说明
+## Directory Layout
 
 ```
 deepagents-lab/
@@ -52,16 +54,16 @@ deepagents-lab/
 ├── 01_filesystem.py
 ├── 02_subagents.py
 ├── 03_skills.py
-├── 03_skills/skills/weekly-report/SKILL.md   # 技能示例
+├── 03_skills/skills/weekly-report/SKILL.md   # skill example
 ├── 04_guardrails.py
 ├── 05_memory.py
-├── 05_memory/AGENTS.md                        # 记忆示例
+├── 05_memory/AGENTS.md                        # memory example
 ├── 06_rubric.py
 ├── 07_production.py
 ├── 08_capstone.py
 ├── 09_context_overflow.py
 ├── requirements.txt
-├── workspace/          # 01 的产物落这里（运行后生成）
-├── workspace_ctx/      # 09 的产物落这里（运行后生成，可直接删）
-└── capstone/docs/      # 08 的测试文档（运行后生成）
+├── workspace/          # output of 01 (generated at runtime)
+├── workspace_ctx/      # output of 09 (generated at runtime; safe to delete)
+└── capstone/docs/      # test docs for 08 (generated at runtime)
 ```
