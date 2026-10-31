@@ -13,6 +13,7 @@ venv/
 workspace/
 workspace_ctx/
 capstone/
+reports/
 
 # 系统 / 编辑器
 .DS_Store
