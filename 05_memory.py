@@ -10,15 +10,16 @@ from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 from config import MODEL
 
-MEMORY_FILE = Path("./05_memory/AGENTS.md")
+MEMORY_DIR = Path("./05_memory").resolve()
 
 
 def build_agent(with_memory: bool):
     return create_deep_agent(
         model=MODEL,
         system_prompt="你是技术顾问。",
-        memory=[str(MEMORY_FILE)] if with_memory else None,
-        backend=FilesystemBackend(root_dir="./workspace"),
+        # memory 路径经 backend 解析，是相对 root_dir 的虚拟路径；找不到文件会静默跳过，不报错
+        memory=["/AGENTS.md"] if with_memory else None,
+        backend=FilesystemBackend(root_dir=MEMORY_DIR, virtual_mode=True),
     )
 
 
