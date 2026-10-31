@@ -8,12 +8,18 @@
 from deepagents import create_deep_agent
 from deepagents.middleware.rubric import RubricMiddleware
 from config import MODEL
+from langgraph.checkpoint.memory import InMemorySaver
 
 agent = create_deep_agent(
     model=MODEL,
     system_prompt="你是技术写作者。",
     middleware=[RubricMiddleware(model=MODEL, max_iterations=3)],
+    # _rubric_status 等是 PrivateStateAttr，不出现在 invoke 的返回值里，
+    # 要靠 checkpointer + get_state 才能读到
+    checkpointer=InMemorySaver(),
 )
+
+config = {"configurable": {"thread_id": "rubric-demo-001"}}
 
 RUBRIC = (
     "必须同时满足以下三条才算通过：\n"
@@ -26,15 +32,19 @@ result = agent.invoke(
     {
         "messages": [{"role": "user", "content": "写一份 800 字的 DeepAgents 技术说明"}],
         "rubric": RUBRIC,  # rubric 通过 invoke 的 state 传入，不是构造参数
-    }
+    },
+    config=config,
 )
 
 print("\n=== 最终输出 ===")
 print(result["messages"][-1].content)
 
 print("\n=== 验收状态 ===")
-status = result.get("_rubric_status")
+state = agent.get_state(config).values
+status = state.get("_rubric_status")
 print("status =", status)
+for ev in state.get("_rubric_evaluations", []):
+    print(f"  第 {ev['iteration'] + 1} 轮：{ev['result']} —— {ev['explanation'][:100]}")
 if status != "satisfied":
     print("注意：未通过时中间件不会改最后的 AIMessage，")
     print("     生产代码必须自己检查 _rubric_status / on_evaluation 回调，")
