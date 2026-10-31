@@ -1,6 +1,6 @@
 """阶段 1：换成真实磁盘，并测试虚拟根边界。
 
-运行：python 01_filesystem.py
+运行：uv run python 01_filesystem.py
 观察：产物落在 ./workspace/notes/ 下；越界写文件被拦截。
 """
 

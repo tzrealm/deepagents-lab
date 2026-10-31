@@ -1,7 +1,7 @@
 """阶段 5：综合项目骨架 —— 技术文档问答 agent。
 
 组合了：FilesystemBackend + 双子代理 + Skill + 权限 + 检查点。
-运行：python 08_capstone.py
+运行：uv run python 08_capstone.py
 """
 
 from pathlib import Path

@@ -1,6 +1,6 @@
 """阶段 2：加载自定义 Skill，验证渐进式披露。
 
-运行：python 03_skills.py
+运行：uv run python 03_skills.py
 观察：系统提示里只有 name + description 两行；说"写周报"时才会去读 SKILL.md 全文。
 """
 

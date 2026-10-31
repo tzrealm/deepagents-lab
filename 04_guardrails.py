@@ -1,6 +1,6 @@
 """阶段 3：权限门 + 人工审批。
 
-运行：python 04_guardrails.py
+运行：uv run python 04_guardrails.py
 观察：读 /secrets/ 被拒；写 /prod/ 触发中断，审批后才继续。
 """
 

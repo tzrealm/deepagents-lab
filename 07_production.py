@@ -1,6 +1,6 @@
 """阶段 4：流式 + 持久化 + 结构化输出。
 
-运行：python 07_production.py
+运行：uv run python 07_production.py
 观察：1) token 级流式输出；2) 同一 thread_id 第二轮能接上上文；3) 结构化输出是 Pydantic 对象。
 """
 

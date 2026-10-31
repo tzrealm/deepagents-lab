@@ -1,6 +1,6 @@
 """阶段 3：AGENTS.md 长期记忆。
 
-运行：python 05_memory.py
+运行：uv run python 05_memory.py
 观察：改 AGENTS.md 前后，输出风格有可见差异。记忆只在启动时注入，改完要重建 agent。
 """
 

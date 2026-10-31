@@ -1,6 +1,6 @@
 """阶段 2：双代理流水线（researcher → writer）。
 
-运行：python 02_subagents.py
+运行：uv run python 02_subagents.py
 观察：LangSmith 里能看到主代理下面挂两个子 run，各自独立上下文。
 踩坑：把 researcher 的 tools 删掉，它会继承主代理工具，开始自己写文件。
 """

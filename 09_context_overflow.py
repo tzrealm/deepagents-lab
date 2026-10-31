@@ -24,8 +24,8 @@ DeepAgents 默认有三道防线，所以"随便塞个大文件"根本爆不了�
 加 --real 参数则用真实模型跑实验 A（需要本地 Ollama 已拉取 config.py 里的模型）。
 
 用法：
-    python 09_context_overflow.py            # 离线，三个实验都跑
-    python 09_context_overflow.py --real     # 真实模型跑实验 A
+    uv run python 09_context_overflow.py            # 离线，三个实验都跑
+    uv run python 09_context_overflow.py --real     # 真实模型跑实验 A
 """
 
 from __future__ import annotations

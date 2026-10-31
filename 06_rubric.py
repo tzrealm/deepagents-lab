@@ -1,6 +1,6 @@
 """阶段 3：rubric 自评迭代。
 
-运行：python 06_rubric.py
+运行：uv run python 06_rubric.py
 观察：agent 第一次写完会被 grader 判 needs_revision，意见塞回去后它继续改，直到 satisfied。
 注意：grader 是一次额外 LLM 调用，成本翻倍，别在便宜任务上开。
 """

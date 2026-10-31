@@ -1,6 +1,6 @@
 """阶段 0：最小可运行的 DeepAgent。
 
-运行：python 00_first_agent.py
+运行：uv run python 00_first_agent.py
 观察：1) 消息里出现 write_file 的 tool call；2) 磁盘上找不到文件（默认后端在内存）。
 """
 
