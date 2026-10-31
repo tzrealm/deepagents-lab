@@ -4,6 +4,8 @@
 
 《DeepAgents 学习计划》的配套练习代码。每个脚本对应主文档的一个阶段，先跑通，再改坏，再修好。
 
+📒 学习笔记：[DeepAgents 学习笔记（飞书）](https://ai-realm.feishu.cn/wiki/PivswWylaiacmsknCTnchd9pnBf)
+
 ## 准备
 
 ```bash

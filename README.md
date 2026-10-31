@@ -4,6 +4,8 @@ English | [简体中文](README.zh-CN.md)
 
 Companion exercise code for the *DeepAgents Learning Plan*. Each script maps to one stage of the main document: get it running, break it, then fix it.
 
+📒 Study notes: [DeepAgents Learning Notes (Feishu)](https://ai-realm.feishu.cn/wiki/PivswWylaiacmsknCTnchd9pnBf)
+
 ## Setup
 
 ```bash
