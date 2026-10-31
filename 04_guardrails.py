@@ -10,6 +10,7 @@ from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 from deepagents.middleware.filesystem import FilesystemPermission
 from config import MODEL
+from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import Command
 
 WORKDIR = Path("./workspace").resolve()
@@ -26,6 +27,7 @@ agent = create_deep_agent(
         FilesystemPermission(operations=["write"], paths=["/prod/**"], mode="interrupt"),
         FilesystemPermission(operations=["read", "write"], paths=["/**"], mode="allow"),
     ],
+    checkpointer=InMemorySaver(),  # interrupt 要靠 checkpointer 保存中断现场，resume 才能接上
 )
 
 config = {"configurable": {"thread_id": "guardrail-demo-001"}}
@@ -38,8 +40,10 @@ r1 = agent.invoke(
 print(r1["messages"][-1].content[:500])
 
 print("\n=== 测试 2：写需要审批的路径 ===")
+# 换一个 thread，避免测试 1 的对话历史干扰；明确要求直接写，否则小模型可能先反问路径而不调用 write_file
+config = {"configurable": {"thread_id": "guardrail-demo-002"}}
 r2 = agent.invoke(
-    {"messages": [{"role": "user", "content": "在 /prod/deploy.md 写一句：今天上线 v1.2.0"}]},
+    {"messages": [{"role": "user", "content": "用 write_file 在 /prod/deploy.md 写一句：今天上线 v1.2.0。目录不存在会自动创建，直接写，不用先确认"}]},
     config=config,
 )
 
@@ -50,6 +54,7 @@ if "__interrupt__" in r2:
 
     # resume 的具体结构以 HumanInTheLoopMiddleware 文档为准，常见形式如下
     r2 = agent.invoke(
+        # Command(resume={"decisions": [{"type": "reject"}]}),
         Command(resume={"decisions": [{"type": "approve"}]}),
         config=config,
     )
